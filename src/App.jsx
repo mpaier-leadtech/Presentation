@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
 import { 
   TrendingUp, 
   ShieldCheck, 
@@ -170,10 +171,7 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 font-sans text-gray-900">
-      {/* Container */}
       <div className="w-full max-w-5xl aspect-video bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col relative border border-white">
-        
-        {/* Header Area */}
         <div className="px-10 pt-10 pb-6 flex justify-between items-start">
           <div className="flex gap-5">
             <div className="bg-indigo-50 p-3 rounded-2xl shadow-inner border border-indigo-100">
@@ -192,13 +190,9 @@ const App = () => {
             {currentSlide + 1} / {slides.length}
           </div>
         </div>
-
-        {/* Content Area */}
         <div className="flex-grow px-12 py-4">
           {slides[currentSlide].content}
         </div>
-
-        {/* Footer Navigation */}
         <div className="px-10 py-8 flex justify-between items-center bg-gray-50/50">
           <button 
             onClick={() => setShowNotes(!showNotes)}
@@ -207,51 +201,28 @@ const App = () => {
             <ShieldAlert size={14} />
             {showNotes ? "Ocultar Notas" : "Mostrar Notas de Orador"}
           </button>
-          
           <div className="flex gap-3">
-            <button 
-              onClick={prevSlide}
-              className="p-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 hover:scale-105 active:scale-95 transition-all shadow-sm"
-            >
-              <ArrowLeft className="text-gray-600" />
-            </button>
-            <button 
-              onClick={nextSlide}
-              className="px-8 py-3 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-indigo-200 flex items-center gap-2"
-            >
-              Siguiente <ArrowRight size={18} />
-            </button>
+            <button onClick={prevSlide} className="p-3 bg-white border border-gray-200 rounded-2xl hover:bg-gray-50 transition-all shadow-sm"><ArrowLeft className="text-gray-600" /></button>
+            <button onClick={nextSlide} className="px-8 py-3 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 transition-all shadow-lg flex items-center gap-2">Siguiente <ArrowRight size={18} /></button>
           </div>
         </div>
-
-        {/* Progress Bar */}
         <div className="absolute bottom-0 left-0 h-1.5 bg-indigo-100 w-full">
-          <div 
-            className="h-full bg-indigo-600 transition-all duration-500" 
-            style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
-          ></div>
+          <div className="h-full bg-indigo-600 transition-all duration-500" style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}></div>
         </div>
       </div>
-
-      {/* Speaker Notes Drawer */}
       {showNotes && (
-        <div className="mt-6 w-full max-w-5xl bg-amber-50 border-l-4 border-amber-400 p-6 rounded-2xl shadow-lg animate-in fade-in slide-in-from-top-4 duration-300">
-          <h5 className="text-amber-900 font-black uppercase text-xs tracking-widest mb-2 flex items-center gap-2">
-            <ExternalLink size={14} /> Notas para tu Pitch
-          </h5>
-          <p className="text-amber-900 font-medium italic">
-            "{slides[currentSlide].notes}"
-          </p>
+        <div className="mt-6 w-full max-w-5xl bg-amber-50 border-l-4 border-amber-400 p-6 rounded-2xl shadow-lg">
+          <h5 className="text-amber-900 font-black uppercase text-xs tracking-widest mb-2 flex items-center gap-2"><ExternalLink size={14} /> Notas para tu Pitch</h5>
+          <p className="text-amber-900 font-medium italic">"{slides[currentSlide].notes}"</p>
         </div>
       )}
-
-      {/* Footer Branding */}
-      <div className="mt-8 flex items-center gap-2 opacity-30 grayscale hover:grayscale-0 transition-all">
-        <div className="w-8 h-8 bg-indigo-600 rounded-lg"></div>
-        <span className="font-black text-sm tracking-tighter">LEADTECH STRATEGIC PRODUCT TEAM</span>
-      </div>
     </div>
   );
 };
+
+// --- LÍNEAS DE RENDERIZADO (INDISPENSABLES) ---
+const container = document.getElementById('root');
+const root = createRoot(container);
+root.render(<App />);
 
 export default App;
